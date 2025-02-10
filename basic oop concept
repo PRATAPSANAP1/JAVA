@@ -1,101 +1,162 @@
 import java.util.Scanner;
-class first{
+
+class Student {
+final String collegeName = "ABC University";
 String name;
 String div;
 String branch;
 String prn;
 int roll;
-float cgpa;
 
-public void input()
-{
-Scanner myObj=new Scanner(System.in);
-
-System.out.print("Enter the student name:");
-name=myObj.nextLine();
-
-System.out.print("Enter the student Div:");
-div=myObj.nextLine();
-
-System.out.print("Enter the student branch:");
-branch=myObj.nextLine();
-
-System.out.print("Enter the student PRN No:");
-prn=myObj.nextLine();
-
-System.out.print("Enter the student Roll no:");
-roll=myObj.nextInt();
-if(roll<0)
-{
-do
-{
-System.out.println("Roll Should not be negative,Try again!!");
-System.out.print("Enter the student Roll no:");
-roll=myObj.nextInt();
-}while(roll<0);
+public void input() {
+Scanner myObj = new Scanner(System.in);
+System.out.print("Enter the student name: ");
+this.name = myObj.nextLine();
+System.out.print("Enter the student Div: ");
+this.div = myObj.nextLine();
+System.out.print("Enter the student branch: ");
+this.branch = myObj.nextLine();
+System.out.print("Enter the student PRN No: ");
+this.prn = myObj.nextLine();
+System.out.print("Enter the student Roll no: ");
+try {
+this.roll = myObj.nextInt();
+if (this.roll < 0) {
+throw new IllegalArgumentException("Roll number cannot be negative!");
 }
-System.out.print("Enter the up to 4 semister[cgpa]: ");
-cgpa=myObj.nextFloat();
-}
-
-
- public void display()
-{
-System.out.println("Name: "+name);
-System.out.println("div: "+div);
-System.out.println("branch: "+branch);
-System.out.println("roll no: "+roll);
-System.out.println("PRN no: "+prn);
-System.out.println("CGPA: "+cgpa);
-if(cgpa>9)
-{
-System.out.print("performace: Excellent");
-}
-else if(cgpa>7.5)
-{
-System.out.print("performace: Good");
-}
-else
-{
-System.out.print("performace: Average");
+} catch (Exception e) {
+System.out.println("Invalid roll number: " + e.getMessage());
+this.roll = 0;
 }
 }
+
+public void display() {
+System.out.println("College: " + collegeName);
+System.out.println("Name: " + this.name);
+System.out.println("Div: " + this.div);
+System.out.println("Branch: " + this.branch);
+System.out.println("Roll No: " + this.roll);
+System.out.println("PRN No: " + this.prn);
 }
- class Sy{
-public static void main(String[] args)
-{
-first s[]=new first[10];
-Scanner myObj1=new Scanner(System.in);
-int ch,n=0,i;
-do
-{
-System.out.println("1.insert data "+" 2.display data ");
-System.out.print(" Enter Your choice:");
-ch=myObj1.nextInt();
-switch(ch)
-{
+}
+
+class SportsPerformance extends Student {
+String sport;
+int awards;
+
+@Override
+public void input() {
+super.input();
+Scanner myObj = new Scanner(System.in);
+System.out.print("Enter the sport: ");
+this.sport = myObj.nextLine();
+System.out.print("Enter the number of awards won: ");
+this.awards = myObj.nextInt();
+}
+
+@Override
+public void display() {
+super.display();
+System.out.println("Sport: " + this.sport);
+System.out.println("Awards Won: " + this.awards);
+}
+}
+
+class MarksPerformance extends Student {
+float marks;
+
+@Override
+public void input() {
+super.input();
+Scanner myObj = new Scanner(System.in);
+System.out.print("Enter the marks (out of 100): ");
+this.marks = myObj.nextFloat();
+}
+
+@Override
+public void display() {
+super.display();
+System.out.println("Marks: " + this.marks);
+if (this.marks >= 90) {
+System.out.println("Performance: Excellent");
+} else if (this.marks >= 75) {
+System.out.println("Performance: Good");
+} else {
+System.out.println("Performance: Average");
+}
+}
+}
+
+class ExtracurricularPerformance extends Student {
+String activity;
+int level;
+
+@Override
+public void input() {
+super.input();
+Scanner myObj = new Scanner(System.in);
+System.out.print("Enter the extracurricular activity: ");
+this.activity = myObj.nextLine();
+System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
+this.level = myObj.nextInt();
+}
+
+@Override
+public void display() {
+super.display();
+System.out.println("Extracurricular Activity: " + this.activity);
+System.out.println("Level Achieved: " + (this.level == 1 ? "School" :
+this.level == 2 ? "District" :
+this.level == 3 ? "State" : "National"));
+}
+}
+
+class Sy {
+public static void main(String[] args) {
+Student[] students = new Student[10];
+Scanner myObj1 = new Scanner(System.in);
+int ch, n = 0, i;
+
+do {
+System.out.println("1. Insert Data  2. Display Data");
+System.out.print("Enter Your Choice: ");
+ch = myObj1.nextInt();
+
+switch (ch) {
 case 1:
-System.out.println("No. of student you want to insert:");
-n=myObj1.nextInt();
-for(i=0;i<n;i++){
-s[i]=new first();
-System.out.println(i+1+"]");
-s[i].input();
+System.out.println("No. of students you want to insert: ");
+n = myObj1.nextInt();
+for (i = 0; i < n; i++) {
+System.out.println("Choose student category: 1. Sports  2. Marks  3. Extracurricular");
+int category = myObj1.nextInt();
+if (category == 1) {
+students[i] = new SportsPerformance();
+} else if (category == 2) {
+students[i] = new MarksPerformance();
+} else if (category == 3) {
+students[i] = new ExtracurricularPerformance();
+} else {
+System.out.println("Invalid category. Defaulting to MarksPerformance.");
+students[i] = new MarksPerformance();
+}
+System.out.println(i + 1 + "]");
+students[i].input();
 }
 break;
 
 case 2:
-for( i=0;i<n;i++){
-System.out.println("\n"+i+1+"]");
-s[i].display();
+for (i = 0; i < n; i++) {
+System.out.println("\n" + (i + 1) + "]");
+students[i].display();
 }
 break;
 
 default:
 System.out.println("Wrong choice!!");
 }
-System.out.println("\nDo you want to continue[press 1 for continue]");
-ch=myObj1.nextInt();
-}while(ch==1);
+
+System.out.println("\nDo you want to continue? [Press 1 for continue]");
+ch = myObj1.nextInt();
+} while (ch == 1);
 }
 }
