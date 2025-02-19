@@ -1,28 +1,22 @@
 import java.util.Scanner;
 
-// Interface for sports
 interface Sport {
     void Sport();
 }
 
-// Interface for marks
 interface Marks {
     void Marks();
 }
-
-// Interface for extracurricular activities
 interface Extracurricular {
     void Extra();
 }
 
-// Student class implementing all three interfaces
 class Student implements Sport, Marks, Extracurricular {
     final String collegeName = "Sanjivani University, Kopargaon";
     String name, div, branch, prn, sport, activity;
     int roll, awards, level;
     float marks, per, cgpa;
 
-    // Method to take student input
     public void input(Scanner myObj) {
         System.out.print("Enter the student name: ");
         name = myObj.nextLine();
@@ -44,7 +38,6 @@ class Student implements Sport, Marks, Extracurricular {
         }
     }
 
-    // Method for sports input
     public void Sport(Scanner myObj) {
         System.out.print("Enter the sport: ");
         sport = myObj.nextLine();
@@ -53,7 +46,7 @@ class Student implements Sport, Marks, Extracurricular {
         myObj.nextLine(); // Consume newline
     }
 
-    // Method for marks input
+  
     public void Marks(Scanner myObj) {
         System.out.print("Enter the Total marks (out of 500): ");
         marks = myObj.nextFloat();
@@ -62,7 +55,6 @@ class Student implements Sport, Marks, Extracurricular {
         myObj.nextLine(); // Consume newline
     }
 
-    // Method for extracurricular activities
     public void Extra(Scanner myObj) {
         System.out.print("Enter the extracurricular activity: ");
         activity = myObj.nextLine();
@@ -71,7 +63,6 @@ class Student implements Sport, Marks, Extracurricular {
         myObj.nextLine(); // Consume newline
     }
 
-    // Method to display student details
     public void display() {
         System.out.println("\nName: " + name);
         System.out.println("Div: " + div);
@@ -99,7 +90,6 @@ class Student implements Sport, Marks, Extracurricular {
     }
 }
 
-// Main class
 class Third {
     public static void main(String[] args) {
         Scanner myObj1 = new Scanner(System.in);
