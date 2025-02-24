@@ -1,22 +1,32 @@
 import java.util.Scanner;
+import java.io.IOException;
 
 interface Sport {
+    String sport1="Sport Section";
     void Sport();
 }
 
 interface Marks {
     void Marks();
 }
+
 interface Extracurricular {
     void Extra();
 }
 
-class Student implements Sport, Marks, Extracurricular {
+interface All extends Sport, Marks, Extracurricular {
+    void Sport();
+    void Marks();
+    void Extra();
+}
+
+class Student implements All {
     final String collegeName = "Sanjivani University, Kopargaon";
     String name, div, branch, prn, sport, activity;
     int roll, awards, level;
     float marks, per, cgpa;
-Scanner myObj = new Scanner(System.in);
+    Scanner myObj = new Scanner(System.in);
+
     public void input() {
         System.out.print("Enter the student name: ");
         name = myObj.nextLine();
@@ -46,21 +56,27 @@ Scanner myObj = new Scanner(System.in);
         myObj.nextLine(); 
     }
 
-  
     public void Marks() {
         System.out.print("Enter the Total marks (out of 500): ");
         marks = myObj.nextFloat();
         per = (marks / 500) * 100;
-        cgpa = per / 9.5f; 
+        cgpa = per / 9.5f;
         myObj.nextLine(); 
     }
 
     public void Extra() {
         System.out.print("Enter the extracurricular activity: ");
         activity = myObj.nextLine();
-        System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
-        level = myObj.nextInt();
-        myObj.nextLine(); 
+        while (true) {
+            System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
+            level = myObj.nextInt();
+            myObj.nextLine(); 
+            if (level >= 1 && level <= 4) {
+                break;
+            } else {
+                System.out.println("Invalid level. Please enter a valid level.");
+            }
+        }
     }
 
     public void display() {
@@ -70,6 +86,7 @@ Scanner myObj = new Scanner(System.in);
         System.out.println("College: " + collegeName);
         System.out.println("Roll No: " + roll);
         System.out.println("PRN No: " + prn);
+           System.out.println(sport1);
         System.out.println("Sport: " + sport);
         System.out.println("Awards Won: " + awards);
         System.out.println("Marks Obtained: " + marks);
@@ -86,54 +103,53 @@ Scanner myObj = new Scanner(System.in);
 
         System.out.println("Extracurricular Activity: " + activity);
         System.out.println("Level Achieved: " + 
-            (level == 1 ? "School" : level == 2 ? "District" : level == 3 ? "State" : "National"));
+            (level==1 ? "School" : level==2 ? "District" : level==3 ? "State" : "National"));
+    }
+
+    public void generateReportCard() {
+        System.out.println("\n*********** Report Card ***********");
+        System.out.println("Name: " + name);
+        System.out.println("Roll No: " + roll);
+        System.out.println("Marks Obtained: " + marks);
+        System.out.println("CGPA: " + cgpa);
+        System.out.println("Sports: " + sport + " - Awards: " + awards);
+        System.out.println("Extracurricular Activity: " + activity + " - Level: " + (level==1 ? "School" : level==2 ? "District" : level==3 ? "State" : "National"));
     }
 }
 
 class Third {
     public static void main(String[] args) {
         Scanner myObj1 = new Scanner(System.in);
-        Student[] students = new Student[10]; 
-        int ch, n = 0,p=0;
+        Student[] students = new Student[10];
+        int ch, n=0;
 
         do {
-            System.out.println("\n1. Insert Data \n2. Display Data\n3. Exit");
+            System.out.println("\n1. Insert Data \n2. Display Data\n3.Generate Report card\n4. Search by Roll No\n5.Exit:");
             System.out.print("Enter Your Choice: ");
             ch = myObj1.nextInt();
-            myObj1.nextLine(); 
+            myObj1.nextLine();
             switch (ch) {
                 case 1:
                     System.out.print("No. of students you want to insert: ");
                     n = myObj1.nextInt();
-                    myObj1.nextLine(); 
+                    myObj1.nextLine();
 
-                    for (int i = 0; i < n; i++) {
+                    for (int i=0;i<n;i++) {
                         students[i] = new Student();
                         System.out.println("\nEnter details for student " + (i + 1) + ":");
                         students[i].input();
+                            students[i].Sport();
+                            students[i].Marks();
+                            students[i].Extra();
                         
-                        System.out.print("student from which field: 1.sport   2. marks   3.extracurricular\n enter your choice:");
-                        p=myObj1.nextInt();
-                        myObj1.nextLine(); 
-                        if(p==1)
-                        {
-                        students[i].Sport();
-                        }
-                        else if(p==2)
-                        {
-                        students[i].Marks();
-                        }
-                        else
-                        {
-                        students[i].Extra();
-}                    }
+                    }
                     break;
 
                 case 2:
-                    if (n == 0) {
+                    if (n==0) {
                         System.out.println("No student records found.");
                     } else {
-                        for (int i = 0; i < n; i++) {
+                        for (int i=0;i<n;i++) {
                             System.out.println("\nStudent " + (i + 1) + ":");
                             students[i].display();
                         }
@@ -141,14 +157,42 @@ class Third {
                     break;
 
                 case 3:
-                    System.out.println("Exiting...");
+                    System.out.print("Enter the student roll number for report:");
+                    int a = myObj1.nextInt();
+                    myObj1.nextLine();
+                    boolean found =false;
+                    for (int i=0;i<n;i++) {
+                        if (students[i].roll==a) {
+                            students[i].generateReportCard();
+                            found=true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("No student found with Roll Number: " + a);
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Roll Number to search: ");
+                    int rollNo = myObj1.nextInt();
+                    myObj1.nextLine();
+                    boolean searchFound = false;
+                    for (int i=0;i<n;i++) {
+                        if (students[i].roll==rollNo) {
+                            students[i].display();
+                            searchFound=true;
+                            break;
+                        }
+                    }
+                    if (!searchFound) {
+                        System.out.println("No student found with Roll Number: " + rollNo);
+                    }
                     break;
 
                 default:
                     System.out.println("Wrong choice! Please enter again.");
             }
-        } while (ch != 3);
-
-        myObj1.close();
+        } while (ch!=5);
     }
 }
