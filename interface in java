@@ -16,8 +16,8 @@ class Student implements Sport, Marks, Extracurricular {
     String name, div, branch, prn, sport, activity;
     int roll, awards, level;
     float marks, per, cgpa;
-
-    public void input(Scanner myObj) {
+Scanner myObj = new Scanner(System.in);
+    public void input() {
         System.out.print("Enter the student name: ");
         name = myObj.nextLine();
         System.out.print("Enter the student Div: ");
@@ -38,29 +38,29 @@ class Student implements Sport, Marks, Extracurricular {
         }
     }
 
-    public void Sport(Scanner myObj) {
+    public void Sport() {
         System.out.print("Enter the sport: ");
         sport = myObj.nextLine();
         System.out.print("Enter the number of awards won: ");
         awards = myObj.nextInt();
-        myObj.nextLine(); // Consume newline
+        myObj.nextLine(); 
     }
 
   
-    public void Marks(Scanner myObj) {
+    public void Marks() {
         System.out.print("Enter the Total marks (out of 500): ");
         marks = myObj.nextFloat();
         per = (marks / 500) * 100;
-        cgpa = per / 9.5f; // CGPA calculation
-        myObj.nextLine(); // Consume newline
+        cgpa = per / 9.5f; 
+        myObj.nextLine(); 
     }
 
-    public void Extra(Scanner myObj) {
+    public void Extra() {
         System.out.print("Enter the extracurricular activity: ");
         activity = myObj.nextLine();
         System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
         level = myObj.nextInt();
-        myObj.nextLine(); // Consume newline
+        myObj.nextLine(); 
     }
 
     public void display() {
@@ -93,29 +93,40 @@ class Student implements Sport, Marks, Extracurricular {
 class Third {
     public static void main(String[] args) {
         Scanner myObj1 = new Scanner(System.in);
-        Student[] students = new Student[10]; // Array of Student objects
-        int ch, n = 0;
+        Student[] students = new Student[10]; 
+        int ch, n = 0,p=0;
 
         do {
             System.out.println("\n1. Insert Data \n2. Display Data\n3. Exit");
             System.out.print("Enter Your Choice: ");
             ch = myObj1.nextInt();
-            myObj1.nextLine(); // Consume newline
-
+            myObj1.nextLine(); 
             switch (ch) {
                 case 1:
                     System.out.print("No. of students you want to insert: ");
                     n = myObj1.nextInt();
-                    myObj1.nextLine(); // Consume newline
+                    myObj1.nextLine(); 
 
                     for (int i = 0; i < n; i++) {
-                        students[i] = new Student(); // Initializing object
+                        students[i] = new Student();
                         System.out.println("\nEnter details for student " + (i + 1) + ":");
-                        students[i].input(myObj1);
-                        students[i].Sport(myObj1);
-                        students[i].Marks(myObj1);
-                        students[i].Extra(myObj1);
-                    }
+                        students[i].input();
+                        
+                        System.out.print("student from which field: 1.sport   2. marks   3.extracurricular\n enter your choice:");
+                        p=myObj1.nextInt();
+                        myObj1.nextLine(); 
+                        if(p==1)
+                        {
+                        students[i].Sport();
+                        }
+                        else if(p==2)
+                        {
+                        students[i].Marks();
+                        }
+                        else
+                        {
+                        students[i].Extra();
+}                    }
                     break;
 
                 case 2:
