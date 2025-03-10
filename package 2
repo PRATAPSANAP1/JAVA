@@ -1,0 +1,94 @@
+import activities.Extra;
+import academics.Student;
+import java.util.Scanner;
+
+public class Fourth {
+    public static void main(String[] args) {
+        Scanner myObj1 = new Scanner(System.in);
+        Student[] students = new Student[10];
+        int ch, n = 0;
+
+        do {
+            System.out.println("\n1. Insert Data \n2. Display Data\n3. Generate Report Card\n4. Search by Roll No\n5. Exit:");
+            System.out.print("Enter Your Choice: ");
+            ch = myObj1.nextInt();
+            myObj1.nextLine();
+
+            switch (ch) {
+                case 1:
+                    System.out.print("No. of students you want to insert: ");
+                    n = myObj1.nextInt();
+                    myObj1.nextLine();
+
+                    if (n > students.length) {
+                        System.out.println("Exceeding array size. Max 10 students allowed.");
+                        break;
+                    }
+
+                    for (int i = 0; i < n; i++) {
+                        students[i] = new Extra();
+                        System.out.println("\nEnter details for student " + (i + 1) + ":");
+                        students[i].input();
+                        ((Extra) students[i]).Sport();
+                        students[i].Marks();
+                        ((Extra) students[i]).Extra();
+                    }
+                    break;
+
+                case 2:
+                    if (n == 0) {
+                        System.out.println("No student records found.");
+                    } else {
+                        for (int i = 0; i < n; i++) {
+                            System.out.println("\nStudent " + (i + 1) + ":");
+                            students[i].display();
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter the student roll number for report: ");
+                    int a = myObj1.nextInt();
+                    myObj1.nextLine();
+                    boolean found = false;
+                    for (int i = 0; i < n; i++) {
+                        if (students[i].getRoll() == a) {
+                            ((Extra) students[i]).generateReportCard();
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("No student found with Roll Number: " + a);
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("Enter Roll Number to search: ");
+                    int rollNo = myObj1.nextInt();
+                    myObj1.nextLine();
+                    boolean searchFound = false;
+                    for (int i = 0; i < n; i++) {
+                        if (students[i].getRoll() == rollNo) {
+                            students[i].display();
+                            searchFound = true;
+                            break;
+                        }
+                    }
+                    if (!searchFound) {
+                        System.out.println("No student found with Roll Number: " + rollNo);
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Wrong choice! Please enter again.");
+            }
+        } while (ch != 5);
+
+        myObj1.close();
+    }
+}
