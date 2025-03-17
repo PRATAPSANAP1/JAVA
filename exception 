@@ -1,0 +1,87 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Student {
+    int id;
+    String name;
+    int age;
+    
+    Student(int id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Age: " + age;
+    }
+}
+
+class InvalidStudentAgeException extends Exception {
+    InvalidStudentAgeException(String message) {
+        super(message);
+    }
+}
+
+class StudentNotFoundException extends Exception {
+    StudentNotFoundException(String message) {
+        super(message);
+    }
+}
+
+public class StudentManagementSystem {
+    private Map<Integer, Student> studentMap = new HashMap<>();
+    
+    public void addStudent(int id, String name, int age) throws InvalidStudentAgeException {
+        if(age < 0 || age > 150) {
+            throw new InvalidStudentAgeException("Invalid age: " + age);
+        }
+        studentMap.put(id, new Student(id, name, age));
+        System.out.println("Added: " + studentMap.get(id));
+    }
+    
+    public void removeStudent(int id) throws StudentNotFoundException {
+        if(!studentMap.containsKey(id)) {
+            throw new StudentNotFoundException("Student not found: " + id);
+        }
+        System.out.println("Removed: " + studentMap.remove(id));
+    }
+    
+    public void displayStudent(int id) throws StudentNotFoundException {
+        if(!studentMap.containsKey(id)) {
+            throw new StudentNotFoundException("Student not found: " + id);
+        }
+        System.out.println("Student: " + studentMap.get(id));
+    }
+    
+    public static void main(String[] args) {
+        StudentManagementSystem sms = new StudentManagementSystem();
+        
+        try {
+            int[] arr = {1, 2, 3};
+            System.out.println(arr[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Caught built-in exception: " + e);
+        }
+        
+        try {
+            sms.addStudent(1, "Alice", 20);
+            sms.addStudent(2, "Bob", -5);
+        } catch (InvalidStudentAgeException e) {
+            System.out.println("Caught custom exception: " + e.getMessage());
+        }
+        
+        try {
+            sms.removeStudent(3);
+        } catch (StudentNotFoundException e) {
+            System.out.println("Caught custom exception: " + e.getMessage());
+        }
+        
+        try {
+            sms.displayStudent(1);
+            sms.displayStudent(3);
+        } catch (StudentNotFoundException e) {
+            System.out.println("Caught custom exception: " + e.getMessage());
+        }
+    }
+}
