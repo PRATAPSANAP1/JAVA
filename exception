@@ -1,8 +1,7 @@
 import java.util.Scanner;
-import java.io.IOException;
 
 interface Sport {
-    String sport1="Sport Section";
+    String sport1 = "Sport Section";
     void Sport();
 }
 
@@ -14,7 +13,7 @@ interface Extracurricular {
     void Extra();
 }
 
-interface All extends Sport, Marks, Extracurricular,Exception {
+interface All extends Sport, Marks, Extracurricular {
     void Sport();
     void Marks();
     void Extra();
@@ -24,7 +23,7 @@ class Student implements All {
     final String collegeName = "Sanjivani University, Kopargaon";
     String name, div, branch, prn, sport, activity;
     int roll, awards, level;
-    float marks=0, per, cgpa;
+    float marks = 0, per, cgpa;
     Scanner myObj = new Scanner(System.in);
 
     public void input() {
@@ -36,14 +35,15 @@ class Student implements All {
         branch = myObj.nextLine();
         System.out.print("Enter the student PRN No: ");
         prn = myObj.nextLine();
-        System.out.print("Enter the student Roll no: ");
+
         while (true) {
             try {
+                System.out.print("Enter the student Roll no: ");
                 roll = Integer.parseInt(myObj.nextLine());
                 if (roll < 0) throw new IllegalArgumentException("Roll number cannot be negative!");
                 break;
             } catch (Exception e) {
-                System.out.println("Invalid roll number. Please enter again.");
+                System.out.println("Invalid roll number. Please enter a positive integer.");
             }
         }
     }
@@ -51,45 +51,63 @@ class Student implements All {
     public void Sport() {
         System.out.print("Enter the sport: ");
         sport = myObj.nextLine();
-        System.out.print("Enter the number of awards won: ");
-        awards = myObj.nextInt();
-        myObj.nextLine(); 
+
+        while (true) {
+            try {
+                System.out.print("Enter the number of awards won: ");
+                awards = myObj.nextInt();
+                myObj.nextLine();
+                if (awards < 0) throw new IllegalArgumentException("Awards cannot be negative!");
+                break;
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter an integer for the number of awards.");
+                myObj.nextLine();
+            }
+        }
     }
 
-    public void Marks(int n) {
-    try{ int a[]=new int a[5];
-      for(j=0;j<n;j++)
-       {    
-        System.out.print("Enter the marks: ");
-        a[i]=myObj.nextFloat();
-        marks=marks+a[j];
-        }
-        }
-        catch(ArrayIndexOutOfBoundException e)
-        {
-        System.out.println("Subject size is not equal to 5");
-        }
-    
-        finally
-        {
-        System.out.println("\nmake sure thet everything is valid credantialos!!");
+    public void Marks() {
+        float a[] = new float[5];
+        marks = 0;  
+        for (int j = 0; j < 5; j++) {
+            while (true) {
+                try {
+                    System.out.print("Enter the marks for subject " + (j + 1) + ": ");
+                    a[j] = myObj.nextFloat();
+                    if (a[j] < 0 || a[j] > 100) {
+                        System.out.println("Marks must be between 0 and 100.");
+                        continue;
+                    }
+                    marks += a[j];
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid input! Please enter a valid number for marks.");
+                    myObj.nextLine(); 
+                }
+            }
         }
         per = (marks / 500) * 100;
         cgpa = per / 9.5f;
-        myObj.nextLine(); 
     }
+    
 
     public void Extra() {
         System.out.print("Enter the extracurricular activity: ");
         activity = myObj.nextLine();
+
         while (true) {
-            System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
-            level = myObj.nextInt();
-            myObj.nextLine(); 
-            if (level >= 1 && level <= 4) {
-                break;
-            } else {
-                System.out.println("Invalid level. Please enter a valid level.");
+            try {
+                System.out.print("Enter the level achieved (1=School, 2=District, 3=State, 4=National): ");
+                level = myObj.nextInt();
+                myObj.nextLine();
+                if (level >= 1 && level <= 4) {
+                    break;
+                } else {
+                    System.out.println("Invalid level. Please enter a valid level between 1 and 4.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter an integer value.");
+                myObj.nextLine();
             }
         }
     }
@@ -101,7 +119,7 @@ class Student implements All {
         System.out.println("College: " + collegeName);
         System.out.println("Roll No: " + roll);
         System.out.println("PRN No: " + prn);
-           System.out.println(sport1);
+        System.out.println(sport1);
         System.out.println("Sport: " + sport);
         System.out.println("Awards Won: " + awards);
         System.out.println("Marks Obtained: " + marks);
@@ -117,8 +135,8 @@ class Student implements All {
         }
 
         System.out.println("Extracurricular Activity: " + activity);
-        System.out.println("Level Achieved: " + 
-            (level==1 ? "School" : level==2 ? "District" : level==3 ? "State" : "National"));
+        System.out.println("Level Achieved: " +
+                (level == 1 ? "School" : level == 2 ? "District" : level == 3 ? "State" : "National"));
     }
 
     public void generateReportCard() {
@@ -128,47 +146,44 @@ class Student implements All {
         System.out.println("Marks Obtained: " + marks);
         System.out.println("CGPA: " + cgpa);
         System.out.println("Sports: " + sport + " - Awards: " + awards);
-        System.out.println("Extracurricular Activity: " + activity + " - Level: " + (level==1 ? "School" : level==2 ? "District" : level==3 ? "State" : "National"));
+        System.out.println("Extracurricular Activity: " + activity + " - Level: " +
+                (level == 1 ? "School" : level == 2 ? "District" : level == 3 ? "State" : "National"));
     }
 }
 
-class Third {
+class exception {
     public static void main(String[] args) {
         Scanner myObj1 = new Scanner(System.in);
         Student[] students = new Student[10];
-        int ch, n=0;
+        int ch, n = 0;
 
         do {
-            System.out.println("\n1. Insert Data \n2. Display Data\n3.Generate Report card\n4. Search by Roll No\n5.Exit:");
+            System.out.println("\n1. Insert Data \n2. Display Data\n3. Generate Report Card\n4. Search by Roll No\n5. Exit");
             System.out.print("Enter Your Choice: ");
-            ch = myObj1.nextInt();s
+            ch = myObj1.nextInt();
             myObj1.nextLine();
+
             switch (ch) {
                 case 1:
                     System.out.print("No. of students you want to insert: ");
                     n = myObj1.nextInt();
                     myObj1.nextLine();
 
-                    for (int i=0;i<n;i++) {
+                    for (int i = 0; i < n; i++) {
                         students[i] = new Student();
                         System.out.println("\nEnter details for student " + (i + 1) + ":");
                         students[i].input();
-                            students[i].Sport();
-                           
-                            System.out.print("Number of subject you want to fill marks:");
-                            int size=myObj1.nextInt();
-                           
-                            students[i].Marks(size);
-                            students[i].Extra();
-                        
+                        students[i].Sport();
+                        students[i].Marks();
+                        students[i].Extra();
                     }
                     break;
 
                 case 2:
-                    if (n==0) {
+                    if (n == 0) {
                         System.out.println("No student records found.");
                     } else {
-                        for (int i=0;i<n;i++) {
+                        for (int i = 0; i < n; i++) {
                             System.out.println("\nStudent " + (i + 1) + ":");
                             students[i].display();
                         }
@@ -176,14 +191,14 @@ class Third {
                     break;
 
                 case 3:
-                    System.out.print("Enter the student roll number for report:");
+                    System.out.print("Enter the student roll number for report: ");
                     int a = myObj1.nextInt();
                     myObj1.nextLine();
-                    boolean found =false;
-                    for (int i=0;i<n;i++) {
-                        if (students[i].roll==a) {
+                    boolean found = false;
+                    for (int i = 0; i < n; i++) {
+                        if (students[i].roll == a) {
                             students[i].generateReportCard();
-                            found=true;
+                            found = true;
                             break;
                         }
                     }
@@ -191,27 +206,8 @@ class Third {
                         System.out.println("No student found with Roll Number: " + a);
                     }
                     break;
-
-                case 4:
-                    System.out.print("Enter Roll Number to search: ");
-                    int rollNo = myObj1.nextInt();
-                    myObj1.nextLine();
-                    boolean searchFound = false;
-                    for (int i=0;i<n;i++) {
-                        if (students[i].roll==rollNo) {
-                            students[i].display();
-                            searchFound=true;
-                            break;
-                        }
-                    }
-                    if (!searchFound) {
-                        System.out.println("No student found with Roll Number: " + rollNo);
-                    }
-                    break;
-              
-                default:
-                    System.out.println("Wrong choice! Please enter again.");
             }
-        } while (ch!=5);
+        } while (ch != 5);
+        myObj1.close();
     }
 }
