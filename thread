@@ -1,0 +1,65 @@
+class Student {
+    synchronized void printDetails(String name) {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Synchronized: " + name + " - " + i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+    }
+}
+
+class SyncThread extends Thread {
+    Student student;
+    String name;
+
+    SyncThread(Student student, String name) {
+        this.student = student;
+        this.name = name;
+    }
+
+    public void run() {
+        student.printDetails(name);
+    }
+}
+
+class UnsyncThread implements Runnable {
+    String name;
+
+    UnsyncThread(String name) {
+        this.name = name;
+    }
+
+    public void run() {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Unsynchronized: " + name + " - " + i);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+    }
+}
+
+public class StudentApp {
+    public static void main(String[] args) {
+        Student student = new Student();
+
+        SyncThread t1 = new SyncThread(student, "Alice");
+        SyncThread t2 = new SyncThread(student, "Bob");
+
+        Thread t3 = new Thread(new UnsyncThread("Charlie"));
+        Thread t4 = new Thread(new UnsyncThread("David"));
+
+        t1.setPriority(Thread.MAX_PRIORITY);
+        t2.setPriority(Thread.MIN_PRIORITY);
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+    }
+}
